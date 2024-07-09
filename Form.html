@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion House Order Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        form { display: grid; gap: 10px; }
+        label { font-weight: bold; }
+        input, textarea { width: 100%; padding: 5px; }
+        button { padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        .checkbox-container { display: flex; align-items: center; }
+        .checkbox-container input { width: auto; margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <h1>A Touch of Zari</h1>
+    <form id="orderForm">
+        <label for="customerName">Customer Name:</label>
+        <input type="text" id="customerName" name="customerName" required>
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" required>
+
+        <label for="articleName">Article Name:</label>
+        <input type="text" id="articleName" name="articleName" required>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" step="0.01" required>
+
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required>
+
+        <label for="shippingAddress">Shipping Address:</label>
+        <textarea id="shippingAddress" name="shippingAddress" required></textarea>
+
+        <div class="checkbox-container">
+            <input type="checkbox" id="sameAddress" name="sameAddress">
+            <label for="sameAddress">Billing address same as shipping address</label>
+        </div>
+
+        <label for="billingAddress">Billing Address:</label>
+        <textarea id="billingAddress" name="billingAddress" required></textarea>
+
+        <button type="submit">Submit Order</button>
+    </form>
+
+    <script>
+        const sameAddressCheckbox = document.getElementById('sameAddress');
+        const shippingAddressInput = document.getElementById('shippingAddress');
+        const billingAddressInput = document.getElementById('billingAddress');
+    
+        sameAddressCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                billingAddressInput.value = shippingAddressInput.value;
+                billingAddressInput.disabled = true;
+            } else {
+                billingAddressInput.disabled = false;
+            }
+        });
+    
+        shippingAddressInput.addEventListener('input', function() {
+            if (sameAddressCheckbox.checked) {
+                billingAddressInput.value = this.value;
+            }
+        });
+    
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            const url = new URL('https://script.google.com/macros/s/AKfycbxSvn5GJT2sDyDHKyg_PQrLgK0B159ZW5e-LcXcK5QsCHKmG52R1OJ_9ErmPPm6CKcB/exec');
+            Object.keys(data).forEach(key => url.searchParams.append(key, data[key]));
+            
+            fetch(url, {
+                method: 'GET',
+                mode: 'no-cors'
+            })
+            .then(() => {
+                alert('Order submitted successfully!');
+                this.reset();
+                billingAddressInput.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+    </script>
+
+</body>
+</html>
