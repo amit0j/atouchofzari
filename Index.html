@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Touch of Zari - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            
+            align-items: center;
+        }
+        header {
+            background-color: #f8f8f8; /* Light gray background */
+            padding: 20px 0;
+        }
+        h1 {
+            margin: 0;
+            font-size: 3em;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: fadeInDown 1s ease-out;
+        }
+        .search-container {
+            margin: 40px 0;
+            text-align: center;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+        #searchInput {
+            width: 60%;
+            padding: 15px;
+            font-size: 18px;
+            border: none;
+            
+            
+            transition: all 0.3s ease;
+        }
+        #searchInput:focus {
+            outline: none;
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        #searchButton {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #2c2c2c;
+            color: white;
+            border: none;
+            
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+        #searchButton:hover {
+            background-color: #b19166;
+            transform: translateY(-2px);
+        }
+        .new-customer-button {
+            display: block;
+            width: 250px;
+            margin: 40px auto;
+            padding: 15px;
+            background-color: #2c2c2c;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+            
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 1s both;
+        }
+        .new-customer-button:hover {
+            background-color: #b19166;
+            transform: translateY(-2px);
+        }
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+            @media (max-width: 768px) {
+        .logo {
+                max-height: 40px; /* Smaller logo on mobile */
+            }
+        h1 {
+            font-size: 20px; /* Smaller title on mobile */
+            }
+            }
+        
+        #searchResults {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            
+            
+            display: none;
+        }
+
+        .customer-result {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+        .expand-btn {
+            background-color: #212121;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .extra-info {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 3px;
+        }
+
+        .logo {
+            max-height: 60px; /* Adjust this value to fit your logo */
+            margin-right: 20px;
+        }
+    </style>
+<header>
+    <div class="container">
+        <a href="index.html">
+            <img src="Touch.png" alt="A Touch of Zari" class="logo">
+        </a>
+        
+    </div>
+</header>
+
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for customer...">
+            <button id="searchButton">Search</button>
+        </div>
+
+        <div id="searchResults"></div>
+
+        <a href="Form.html" class="new-customer-button">Add New Customer</a>
+    </div>
+
+    
+    <script>
+        const searchButton = document.getElementById('searchButton');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+    
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    
+        function performSearch() {
+    const searchTerm = searchInput.value;
+    if (searchTerm.length < 2) {
+        alert('Please enter at least 2 characters to search.');
+        return;
+    }
+
+    searchResults.innerHTML = 'Searching...';
+    searchResults.style.display = 'block';
+
+    fetch('https://script.google.com/macros/s/AKfycbwypNLRUCMNvYkYS7ovxwOBiIB-xYInVktKIi64E1h-Ca6t405lz1bM__jRUJDMQzu9/exec?term=' + encodeURIComponent(searchTerm))
+        .then(response => response.json())
+        .then(data => {
+            if (data.length === 0) {
+                searchResults.innerHTML = 'No results found.';
+            } else {
+                let resultsHTML = '<h2>Search Results:</h2>';
+                data.forEach((customer, index) => {
+                    resultsHTML += `
+                        <div class="customer-result">
+                            <h3>${customer.Name}</h3>
+                            <p>Address: ${customer.Address}</p>
+                            <p>Email: ${customer.Email}</p>
+                            <p>Phone: ${customer['PH NO.']}</p>
+                            <button class="expand-btn" onclick="toggleExtra(${index})">Show More</button>
+                            <div class="extra-info" id="extra-${index}" style="display: none;">
+                                <p>Height: ${customer.Height}</p>
+                                <p>Length of Shirt: ${customer['Length of Shirt']}</p>
+                                <p>Upper Chest: ${customer['Upper Chest']}</p>
+                                <p>Chest: ${customer.Chest}</p>
+                                <p>Waist: ${customer.Waist}</p>
+                                <p>Neck: ${customer.Neck}</p>
+                                <p>Back Neck: ${customer['Back Neck']}</p>
+                                <p>Hips: ${customer.Hips}</p>
+                                <p>Sleeve Length: ${customer['Sleeve Length']}</p>
+                                <p>Sleeve Mori: ${customer['Sleeve Mori']}</p>
+                                <p>Biceps: ${customer.Biceps}</p>
+                                <p>Shoulder: ${customer.Shoulder}</p>
+                                <p>Armhole: ${customer.Armhole}</p>
+                                <p>Salwar: ${customer.Salwar}</p>
+                                <p>Pant Length: ${customer['Pant Length']}</p>
+                                <p>Pant Mori: ${customer['Pant Mori']}</p>
+                                <p>Garara/Sharara: ${customer['Garara/Sharara']}</p>
+                                <p>Lower Waist: ${customer['Lower Waist']}</p>
+                                <p>Upper Thigh: ${customer['Upper Thigh']}</p>
+                                <p>Calf: ${customer.Calf}</p>
+                                <p>Crotch: ${customer.Crotch}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                searchResults.innerHTML = resultsHTML;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            searchResults.innerHTML = 'An error occurred while searching. Please try again.';
+        });
+}
+            function toggleExtra(index) {
+                const extraInfo = document.getElementById(`extra-${index}`);
+                const button = extraInfo.previousElementSibling;
+                if (extraInfo.style.display === 'none') {
+                    extraInfo.style.display = 'block';
+                    button.textContent = 'Show Less';
+                } else {
+                    extraInfo.style.display = 'none';
+                    button.textContent = 'Show More';
+                }
+            }
+
+
+    </script>
+    
+</body>
+</html>

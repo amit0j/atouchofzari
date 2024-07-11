@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Touch of Zari - Order Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        form { display: grid; gap: 10px; }
+        label { font-weight: bold; }
+        input, textarea { width: 100%; padding: 5px; }
+        button { padding: 10px; background-color: #2c2c2c; color: white; border: none; cursor: pointer; }
+        
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        header {
+            background-color: #f8f8f8; /* Light gray background */
+            padding: 20px 0;
+        }
+    @media (max-width: 768px) {
+        .logo {
+                max-height: 40px; /* Smaller logo on mobile */
+            }
+        h1 {
+            font-size: 20px; /* Smaller title on mobile */
+            }
+            }
+
+            .logo {
+            max-height: 60px; /* Adjust this value to fit your logo */
+            margin-right: 20px;
+        }
+
+
+    </style>
+
+<header>
+    <div class="container">
+        <a href="index.html">
+            <img src="Touch.png" alt="A Touch of Zari" class="logo">
+        </a>
+        
+    </div>
+</header>
+
+</head>
+<body>
+    <h1>A Touch of Zari</h1>
+    <br>
+    <h3>Customer Information</h3>
+    <form id="orderForm">
+        <label for="customerName">Name:</label>
+        <input type="text" id="customerName" name="customerName" required>
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" required>
+
+        <label for="customerEmail">Email:</label>
+        <input type="email" id="customerEmail" name="customerEmail">
+
+        <label for="shippingAddress">Shipping Address:</label>
+        <textarea id="shippingAddress" name="shippingAddress" required></textarea>
+
+        <br>
+        <h3>Measurements</h3>
+
+        <label for="height">Height:</label>
+        <input type="text" id="height" name="height">
+
+        <label for="lengthShirt">Length of Shirt:</label>
+        <input type="text" id="lengthShirt" name="lengthShirt">
+
+        <label for="uChest">Upper Chest:</label>
+        <input type="text" id="uChest" name="uChest">
+
+        <label for="chest">Chest:</label>
+        <input type="text" id="chest" name="chest">
+
+        <label for="waist">Waist:</label>
+        <input type="text" id="waist" name="waist">
+
+        <label for="neck">Neck:</label>
+        <input type="text" id="neck" name="neck">
+
+        <label for="backNeck">Back Neck:</label>
+        <input type="text" id="backNeck" name="backNeck">
+
+        <label for="hips">Hips:</label>
+        <input type="text" id="hips" name="hips">
+
+        <label for="sleeveLength">Sleeve Length:</label>
+        <input type="text" id="sleeveLength" name="sleeveLength">
+
+        <label for="sleeveMori">Sleeve Mori:</label>
+        <input type="text" id="sleeveMori" name="sleeveMori">
+
+        <label for="biceps">Biceps:</label>
+        <input type="text" id="biceps" name="biceps">
+
+        <label for="shoulder">Shoulder:</label>
+        <input type="text" id="shoulder" name="shoulder">
+
+        <label for="armhole">Armhole:</label>
+        <input type="text" id="armhole" name="armhole">
+
+        <label for="salwar">Salwar:</label>
+        <input type="text" id="salwar" name="salwar">
+
+        <label for="pantLength">Pant Length:</label>
+        <input type="text" id="pantLength" name="pantLength">
+
+        <label for="pantMori">Pant Mori:</label>
+        <input type="text" id="pantMori" name="pantMori">
+
+        <label for="garShar">Gharara / Sharara:</label>
+        <input type="text" id="garShar" name="garShar">
+
+        <label for="lowerWaist">Lower Waist:</label>
+        <input type="text" id="lowerWaist" name="lowerWaist">
+
+        <label for="upperThigh">Upper Thigh:</label>
+        <input type="text" id="upperThigh" name="upperThigh">
+
+        <label for="calf">Calf:</label>
+        <input type="text" id="calf" name="calf">
+
+        <label for="crotch">Crotch:</label>
+        <input type="text" id="crotch" name="crotch">
+
+        <button type="submit">Submit Order</button>
+    </form>
+
+    <script>
+
+    
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            
+            const url = 'https://script.google.com/macros/s/AKfycbxbJ7VkIh0XcR9gyjR8oAT_57espv332oJBcMa_NPldi85ZdQEQCCRCHKRiZ2CTDs-V/exec';
+            
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            })
+            .then(() => {
+                alert('Order submitted successfully!');
+                this.reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>
